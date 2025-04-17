@@ -1,35 +1,29 @@
-import React, { useState } from "react";
+import React, { useState, FormEvent } from "react";
 import { useAuth } from "../AuthContext";
+import { friendRequestApi } from "../adapters/api/friendRequestApi";
 
-const SendFriendRequest = () => {
+const SendFriendRequest: React.FC = () => {
   const { usertoken } = useAuth();
-  const [friendOnlineId, setFriendOnlineId] = useState("");
-  const [error, setError] = useState("");
+  const [friendOnlineId, setFriendOnlineId] = useState<string>("");
+  const [error, setError] = useState<string>("");
 
-  const handleSendRequest = async (e: React.FormEvent) => {
+  const handleSendRequest = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    if (!friendOnlineId) {
+    if (!friendOnlineId.trim()) {
       setError("Please provide a valid Online ID.");
       return;
     }
 
     try {
-      const response = await fetch("https://192.168.1.141:5041/api/friendrequest/send-request", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          "Authorization": `Bearer ${usertoken}`, // Assuming you store JWT in context
-        },
-        body: JSON.stringify({ OnlineId: friendOnlineId }),
-      });
+      const { response } = await friendRequestApi.sendFriendRequest(friendOnlineId, usertoken!!);
 
-      const data = await response.json();
-
-      if (response.ok) {
-        alert("Friend request sent successfully!");
+      if (response.success) {
+        alert(`Friend request sent successfully to ${response.content?.friend.username}!`);
+        setFriendOnlineId("");
+        setError("");
       } else {
-        setError(data.message || "Error sending friend request");
+        setError(response.message || "Error sending friend request");
       }
     } catch (err) {
       console.error("Request error:", err);
@@ -38,25 +32,25 @@ const SendFriendRequest = () => {
   };
 
   return (
-    <div className="flex items-center justify-center">
-      <form onSubmit={handleSendRequest} className="flex items-center space-x-4">
+    <div className="">
+      <form onSubmit={handleSendRequest} className="">
         <input
           type="text"
           placeholder="Enter Online ID"
           value={friendOnlineId}
           onChange={(e) => setFriendOnlineId(e.target.value)}
-          className="border p-2 rounded"
+          className=""
         />
         <button
           type="submit"
-          className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
+          className=""
         >
           Send Friend Request
         </button>
       </form>
 
       {error && (
-        <div className="mt-4 bg-red-100 text-red-700 p-3 rounded">
+        <div className="">
           {error}
         </div>
       )}
