@@ -2,17 +2,18 @@ import { friendApi } from "../adapters/api/friendApi";
 import { UserDTO } from "../domain/models/UserDTO";
 import { useEffect, useState } from "react";
 import { useAuth } from "../AuthContext";
+import Chat from "./Chat";
 const FriendList = () => {
     const { usertoken } = useAuth();
     const [friends, setFriends] = useState<UserDTO[]>([]);
     const [error, setError] = useState("");
-
+    const [selectedFriend, setSelectedFriend] = useState<UserDTO | null>(null);
 
     useEffect(() => {
         const fetchFriends = async () => {
     
           try {
-            const { response } = await friendApi.getFriends(usertoken!!);
+            const { response } = await friendApi.getFriends(usertoken?.token!!);
     
             if (response.success) {
               const friends = response.content;
@@ -32,7 +33,7 @@ const FriendList = () => {
         const confirmed = window.confirm("Are you sure you want to delete this friend?");
         if (confirmed) {
           try {
-            const res = await friendApi.deleteFriend(usertoken!!, friendId);
+            const res = await friendApi.deleteFriend(usertoken?.token!!, friendId);
             if (res.response.success) {
               setFriends(friends.filter((friend) => friend!!.online_Id !== friendId));
             } else {
@@ -44,9 +45,9 @@ const FriendList = () => {
         }
       };
 
-      const handleStartChat = async (friend: UserDTO) => {
-
-      }
+      const handleStartChat = (friend: UserDTO) => {
+        setSelectedFriend(friend);
+      };
 
       return (
         <>
@@ -65,6 +66,12 @@ const FriendList = () => {
                   </li>
                 ))}
               </ul>
+              {selectedFriend && (
+              <Chat
+                friend={selectedFriend}
+                onClose={() => setSelectedFriend(null)}
+              />
+            )}
             </>
       );
     };

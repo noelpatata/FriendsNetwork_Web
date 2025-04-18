@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { useAuth } from "../AuthContext";
-import { FriendRequestDTO } from "../domain/FriendRequestDTO";
+import { FriendRequestDTO } from "../domain/models/FriendRequestDTO";
 import { friendRequestApi } from "../adapters/api/friendRequestApi"; // Adapter implementation
 
 const FriendRequests = () => {
@@ -12,7 +12,7 @@ const FriendRequests = () => {
     if (!usertoken) return;
 
     try {
-      const { response } = await friendRequestApi.getFriendRequests(usertoken);
+      const { response } = await friendRequestApi.getFriendRequests(usertoken.token);
 
       if (!response.success) {
         setError(response.message || "Failed to fetch friend requests");
@@ -28,7 +28,7 @@ const FriendRequests = () => {
 
   const handleAcceptRequest = async (onlineId: string) => {
     try {
-      const { response } = await friendRequestApi.acceptFriendRequest(onlineId, usertoken!!);
+      const { response } = await friendRequestApi.acceptFriendRequest(onlineId, usertoken?.token!!);
 
       if (response.success) {
         setFriendRequests(prev => prev.filter(req => req.friend?.online_Id !== onlineId));
@@ -43,7 +43,7 @@ const FriendRequests = () => {
 
   const handleRejectRequest = async (onlineId: string) => {
     try {
-      const { response } = await friendRequestApi.rejectFriendRequest(onlineId, usertoken!!);
+      const { response } = await friendRequestApi.rejectFriendRequest(onlineId, usertoken?.token!!);
 
       if (response.success) {
         setFriendRequests(prev => prev.filter(req => req.friend?.online_Id !== onlineId));
