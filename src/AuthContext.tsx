@@ -1,5 +1,5 @@
 import { createContext, useContext, useState, useEffect } from "react";
-import { LoginDTO } from "./domain/models/LoginDTO";
+import { LoginDTO } from "./domain/models/Login/LoginDTO";
 
 interface AuthContextType {
   usertoken: LoginDTO | null;
@@ -15,18 +15,10 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     return storedData ? JSON.parse(storedData) : null;
   });
 
-  useEffect(() => {
-    const loginData = localStorage.getItem("login_data");
-    const parsedLoginData: LoginDTO = JSON.parse(loginData!!);
-      const now = new Date().getTime();
-      const expTime = new Date(parsedLoginData.expires).getTime();
+    useEffect(() => {
 
-      if (expTime > now) {
-        setUsertoken(parsedLoginData);
-      } else {
-        localStorage.removeItem("login_data");
-      }
   }, []);
+
 
   const login = (loginData: LoginDTO) => {
     console.log("setting token");

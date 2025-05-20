@@ -1,9 +1,9 @@
 import { BaseResponseDTO } from '../../domain/models/BaseResponseDTO';
-import { LoginDTO } from '../../domain/models/LoginDTO';
+import { LoginViewModel } from '../../domain/models/Login/LoginViewModel';
 
 export interface LoginService {
     doLogin: (
         username: string,
         password: string,
-    ) => Promise<{ response: BaseResponseDTO<LoginDTO> }>;
+    ) => Promise<{ response: BaseResponseDTO<LoginViewModel> }>;
 }

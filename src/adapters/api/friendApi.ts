@@ -3,19 +3,18 @@ export const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
 export const friendApi: FriendService = {
   getFriends: async (usertoken) => {
-    const res = await fetch(`${API_BASE_URL}friend`, {
+    const res = await fetch(`${API_BASE_URL}friendship`, {
       method: "GET",
       headers: {
         Authorization: `Bearer ${usertoken}`,
       },
     });
     const data = await res.json();
-    return {
-      response: data,
-    };
+    return data;
   },
+
   deleteFriend: async(token, onlineId) => {
-    const res = await fetch(`${API_BASE_URL}friend/delete`, {
+    const res = await fetch(`${API_BASE_URL}friendship/delete`, {
       method: "POST",
       headers : {
         "Content-Type": "application/json",
@@ -26,9 +25,7 @@ export const friendApi: FriendService = {
     });
 
     const data = res.json();
-
-    return {
-      response: data,
-    }
+    
+    return data;
   }
 };

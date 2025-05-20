@@ -10,7 +10,7 @@ export const friendRequestApi: FriendRequestService = {
         "Content-Type": "application/json",
         Authorization: `Bearer ${token}`,
       },
-      body: JSON.stringify({ OnlineId: onlineId }),
+      body: JSON.stringify({ FriendOnlineId: onlineId }),
     });
 
     const data = await response.json();
@@ -40,7 +40,7 @@ export const friendRequestApi: FriendRequestService = {
         "Content-Type": "application/json",
         Authorization: `Bearer ${token}`,
       },
-      body: JSON.stringify({ OnlineId: onlineId }),
+      body: JSON.stringify({ FriendOnlineId: onlineId }),
     });
 
     const data = await response.json();
@@ -56,7 +56,7 @@ export const friendRequestApi: FriendRequestService = {
         "Content-Type": "application/json",
         Authorization: `Bearer ${token}`,
       },
-      body: JSON.stringify({ OnlineId: onlineId }),
+      body: JSON.stringify({ FriendOnlineId: onlineId }),
     });
 
     const data = await response.json();

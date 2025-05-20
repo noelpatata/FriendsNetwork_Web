@@ -1,9 +1,9 @@
 // components/Chat.tsx
 import { useState } from "react";
-import { UserDTO } from "../domain/models/UserDTO";
+import { FriendDTO } from "../domain/models/Friends/FriendDTO";
 
 interface ChatProps {
-  friend: UserDTO;
+  friend: FriendDTO;
   onClose: () => void;
 }
 
@@ -21,7 +21,7 @@ const Chat = ({ friend, onClose }: ChatProps) => {
     <div className="">
       <div className="">
         <div className="">
-          <h2 className="">Chat with {friend.username}</h2>
+          <h2 className="">Chat with {friend.Friend?.Username}</h2>
           <button onClick={onClose} className="">✖</button>
         </div>
         <div className="">

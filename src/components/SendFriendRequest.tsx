@@ -19,7 +19,7 @@ const SendFriendRequest: React.FC = () => {
       const { response } = await friendRequestApi.sendFriendRequest(friendOnlineId, usertoken?.token!!);
 
       if (response.success) {
-        alert(`Friend request sent successfully to ${response.content?.friend.username}!`);
+        alert(`Friend request sent successfully to ${response.content?.viewModel?.Sender.Username}!`);
         setFriendOnlineId("");
         setError("");
       } else {

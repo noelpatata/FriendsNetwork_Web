@@ -21,7 +21,7 @@ const Login = () => {
         throw new Error(response.message || "Login failed");
       }
 
-      login(response.content);
+      login(response.content?.tokenViewModel!!);
       navigate("/");
     } catch (err: any) {
       console.error(err);

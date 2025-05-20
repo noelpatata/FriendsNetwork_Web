@@ -1,5 +1,5 @@
 export interface UserDTO {
-    username: string;
-    online_Id: string;
+    Username: string;
+    Online_Id: string;
   }
   

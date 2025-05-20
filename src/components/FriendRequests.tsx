@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { useAuth } from "../AuthContext";
-import { FriendRequestDTO } from "../domain/models/FriendRequestDTO";
+import { FriendRequestDTO } from "../domain/models/FriendRequests/FriendRequestDTO";
 import { friendRequestApi } from "../adapters/api/friendRequestApi"; // Adapter implementation
 
 const FriendRequests = () => {
@@ -19,7 +19,7 @@ const FriendRequests = () => {
         return;
       }
 
-      setFriendRequests(response.content || []);
+      setFriendRequests(response.content!!.viewModels || []);
     } catch (err) {
       console.error("Fetch error:", err);
       setError("An error occurred while fetching friend requests.");
@@ -31,7 +31,7 @@ const FriendRequests = () => {
       const { response } = await friendRequestApi.acceptFriendRequest(onlineId, usertoken?.token!!);
 
       if (response.success) {
-        setFriendRequests(prev => prev.filter(req => req.friend?.online_Id !== onlineId));
+        setFriendRequests(prev => prev.filter(req => req.Sender.Online_Id !== onlineId));
       } else {
         setError(response.message || "Failed to accept request.");
       }
@@ -46,7 +46,7 @@ const FriendRequests = () => {
       const { response } = await friendRequestApi.rejectFriendRequest(onlineId, usertoken?.token!!);
 
       if (response.success) {
-        setFriendRequests(prev => prev.filter(req => req.friend?.online_Id !== onlineId));
+        setFriendRequests(prev => prev.filter(req => req.Sender.Online_Id !== onlineId));
       } else {
         setError(response.message || "Failed to reject request.");
       }
@@ -73,18 +73,18 @@ const FriendRequests = () => {
           {friendRequests.map((request, index) => (
             <li key={index} className="">
               <span>
-                User: {request.friend?.username} | Sent at:{" "}
+                User: {request.Sender.Username} | Sent at:{" "}
                 {new Date(request.sentAt).toLocaleString()}
               </span>
               <div className="">
                 <button
-                  onClick={() => handleAcceptRequest(request.friend?.online_Id ?? "")}
+                  onClick={() => handleAcceptRequest(request.Sender.Online_Id ?? "")}
                   className=""
                 >
                   Accept
                 </button>
                 <button
-                  onClick={() => handleRejectRequest(request.friend?.online_Id ?? "")}
+                  onClick={() => handleRejectRequest(request.Sender.Online_Id ?? "")}
                   className=""
                 >
                   Reject
