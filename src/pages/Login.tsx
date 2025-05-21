@@ -15,8 +15,7 @@ const Login = () => {
     e.preventDefault();
 
     try {
-      const { response } = await loginApi.doLogin(username, password);
-
+      const response = await loginApi.doLogin(username, password);
       if (!response.success) {
         throw new Error(response.message || "Login failed");
       }

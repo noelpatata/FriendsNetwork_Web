@@ -21,7 +21,7 @@ const Chat = ({ friend, onClose }: ChatProps) => {
     <div className="">
       <div className="">
         <div className="">
-          <h2 className="">Chat with {friend.Friend?.Username}</h2>
+          <h2 className="">Chat with {friend.friend?.username}</h2>
           <button onClick={onClose} className="">✖</button>
         </div>
         <div className="">

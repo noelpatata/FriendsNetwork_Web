@@ -1,5 +1,5 @@
-import { FriendRequestDTO } from "./FriendRequestDTO";
+import { SendFriendRequestDTO } from "./SendFriendRequestDTO";
 
 export interface FriendRequestViewModel {
-    viewModel?: FriendRequestDTO;
+    viewModel?: SendFriendRequestDTO;
   }

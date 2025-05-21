@@ -13,8 +13,7 @@ const FriendList = () => {
         const fetchFriends = async () => {
     
           try {
-            const result = await friendApi.getFriends(usertoken?.token!!);
-            const response = result?.response;
+            const response = await friendApi.getFriends(usertoken?.token!!);
 
             if (!response) {
               setError("You've got no friends :(");
@@ -22,11 +21,11 @@ const FriendList = () => {
             }
 
             if (response.success) {
-              if (!response.content?.viewModels) {
+              if (!response.content?.friendsViewModel) {
                 return;
               }
 
-              const friends = response.content.viewModels;
+              const friends = response.content.friendsViewModel;
               setFriends(friends);
             } else {
               setError(response.message || "Failed to fetch friends");
@@ -45,10 +44,10 @@ const FriendList = () => {
         if (confirmed) {
           try {
             const res = await friendApi.deleteFriend(usertoken?.token!!, friendId);
-            if (res.response.success) {
-              setFriends(friends.filter((friend) => friend.Friend!!.Online_Id !== friendId));
+            if (res.success) {
+              setFriends(friends.filter((friend) => friend.friend!!.online_id !== friendId));
             } else {
-              setError(res.response.message || "Failed to delete friend");
+              setError(res.message || "Failed to delete friend");
             }
           } catch (err: any) {
             setError(err.message || "Something went wrong");
@@ -66,9 +65,9 @@ const FriendList = () => {
               {error && <p>{error}</p>}
               <ul>
                 {friends.map((friend) => (
-                  <li key={friend!!.Friend?.Online_Id.toString()}>
-                    <span>{friend!!.Friend?.Username}</span>
-                    <button onClick={() => handleDeleteFriend(friend!!.Friend!!.Online_Id.toString())}>
+                  <li key={friend!!.friend?.online_id.toString()}>
+                    <span>{friend!!.friend?.username}</span>
+                    <button onClick={() => handleDeleteFriend(friend!!.friend!!.online_id.toString())}>
                       Delete
                     </button>
                     <button onClick={() => handleStartChat(friend)}>

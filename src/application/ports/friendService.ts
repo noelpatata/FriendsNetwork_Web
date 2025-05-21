@@ -5,10 +5,10 @@ import { FriendsViewModel } from "../../domain/models/Friends/FriendsViewModel";
 export interface FriendService {
     getFriends: (
         token: string
-    ) => Promise<{ response: BaseResponseDTO<FriendsViewModel | null> }>;
+    ) => Promise<BaseResponseDTO<FriendsViewModel | null>>;
 
     deleteFriend: (
         token: string,
         onlineId: string,
-    ) => Promise<{ response: BaseResponseDTO<DeleteFriendViewModel> }>;
+    ) => Promise<BaseResponseDTO<DeleteFriendViewModel>>;
 }

@@ -12,7 +12,7 @@ const FriendRequests = () => {
     if (!usertoken) return;
 
     try {
-      const { response } = await friendRequestApi.getFriendRequests(usertoken.token);
+      const response = await friendRequestApi.getFriendRequests(usertoken.token);
 
       if (!response.success) {
         setError(response.message || "Failed to fetch friend requests");
@@ -28,10 +28,10 @@ const FriendRequests = () => {
 
   const handleAcceptRequest = async (onlineId: string) => {
     try {
-      const { response } = await friendRequestApi.acceptFriendRequest(onlineId, usertoken?.token!!);
+      const response = await friendRequestApi.acceptFriendRequest(onlineId, usertoken?.token!!);
 
       if (response.success) {
-        setFriendRequests(prev => prev.filter(req => req.Sender.Online_Id !== onlineId));
+        setFriendRequests(prev => prev.filter(req => req.sender.online_id !== onlineId));
       } else {
         setError(response.message || "Failed to accept request.");
       }
@@ -43,10 +43,10 @@ const FriendRequests = () => {
 
   const handleRejectRequest = async (onlineId: string) => {
     try {
-      const { response } = await friendRequestApi.rejectFriendRequest(onlineId, usertoken?.token!!);
+      const response = await friendRequestApi.rejectFriendRequest(onlineId, usertoken?.token!!);
 
       if (response.success) {
-        setFriendRequests(prev => prev.filter(req => req.Sender.Online_Id !== onlineId));
+        setFriendRequests(prev => prev.filter(req => req.sender.online_id !== onlineId));
       } else {
         setError(response.message || "Failed to reject request.");
       }
@@ -73,18 +73,18 @@ const FriendRequests = () => {
           {friendRequests.map((request, index) => (
             <li key={index} className="">
               <span>
-                User: {request.Sender.Username} | Sent at:{" "}
+                User: {request.sender.username} | Sent at:{" "}
                 {new Date(request.sentAt).toLocaleString()}
               </span>
               <div className="">
                 <button
-                  onClick={() => handleAcceptRequest(request.Sender.Online_Id ?? "")}
+                  onClick={() => handleAcceptRequest(request.sender.online_id ?? "")}
                   className=""
                 >
                   Accept
                 </button>
                 <button
-                  onClick={() => handleRejectRequest(request.Sender.Online_Id ?? "")}
+                  onClick={() => handleRejectRequest(request.sender.online_id ?? "")}
                   className=""
                 >
                   Reject

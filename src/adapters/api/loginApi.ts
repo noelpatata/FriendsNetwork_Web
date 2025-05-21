@@ -9,9 +9,6 @@ export const loginApi: LoginService = {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ username, password }),
       });
-      const data = await res.json();
-      return {
-        response: data
-      };
+      return await res.json();
     },
   }

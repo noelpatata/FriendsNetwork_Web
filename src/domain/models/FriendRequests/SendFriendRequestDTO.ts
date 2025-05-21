@@ -1,7 +1,7 @@
-import { UserDTO } from "./UserDTO";
+import { UserDTO } from "../UserDTO";
 
-export interface FriendRequestDTO {
+export interface SendFriendRequestDTO {
     accepted: boolean;
-    Receiver: UserDTO
+    receiver: UserDTO
     sentAt: string;
   }

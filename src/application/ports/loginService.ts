@@ -5,5 +5,5 @@ export interface LoginService {
     doLogin: (
         username: string,
         password: string,
-    ) => Promise<{ response: BaseResponseDTO<LoginViewModel> }>;
+    ) => Promise<BaseResponseDTO<LoginViewModel>>;
 }

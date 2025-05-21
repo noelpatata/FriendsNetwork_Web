@@ -7,19 +7,21 @@ export interface FriendRequestService {
   sendFriendRequest: (
     FriendOnlineId: string,
     token: string
-  ) => Promise<{ response: BaseResponseDTO<FriendRequestViewModel>;}>;
+  ) => Promise<BaseResponseDTO<FriendRequestViewModel>
+  >;
 
   getFriendRequests: (
     token: string
-  ) => Promise<{ response: BaseResponseDTO<FriendRequestsViewModel>;}>;
+  ) => Promise<BaseResponseDTO<FriendRequestsViewModel>
+  >;
 
   acceptFriendRequest: (
     FriendOnlineId: string,
     token: string
-  ) => Promise<{ response: BaseResponseDTO<SendFriendRequestViewModel> }>;
+  ) => Promise<BaseResponseDTO<SendFriendRequestViewModel>>;
 
   rejectFriendRequest: (
     FriendOnlineId: string,
     token: string
-  ) => Promise<{ response: BaseResponseDTO<FriendRequestViewModel> }>;
+  ) => Promise<BaseResponseDTO<FriendRequestViewModel>>;
 }

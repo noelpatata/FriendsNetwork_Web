@@ -2,6 +2,6 @@ import { UserDTO } from "../UserDTO";
 
 export interface FriendRequestDTO {
     accepted: boolean;
-    Sender: UserDTO
+    sender: UserDTO
     sentAt: string;
   }

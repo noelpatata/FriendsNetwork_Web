@@ -14,14 +14,14 @@ export const friendApi: FriendService = {
   },
 
   deleteFriend: async(token, onlineId) => {
-    const res = await fetch(`${API_BASE_URL}friendship/delete`, {
-      method: "POST",
+    const res = await fetch(`${API_BASE_URL}friendship`, {
+      method: "DELETE",
       headers : {
         "Content-Type": "application/json",
         Authorization: `Bearer ${token}`,
 
       },
-      body: JSON.stringify({OnlineId: onlineId}),
+      body: JSON.stringify({friendOnlineId: onlineId}),
     });
 
     const data = res.json();

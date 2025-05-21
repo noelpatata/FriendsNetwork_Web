@@ -10,13 +10,10 @@ export const friendRequestApi: FriendRequestService = {
         "Content-Type": "application/json",
         Authorization: `Bearer ${token}`,
       },
-      body: JSON.stringify({ FriendOnlineId: onlineId }),
+      body: JSON.stringify({ friendOnlineId: onlineId }),
     });
 
-    const data = await response.json();
-    return {
-      response: data
-    };
+    return await response.json();
   },
 
   getFriendRequests: async (token) => {
@@ -27,10 +24,7 @@ export const friendRequestApi: FriendRequestService = {
       },
     });
 
-    const data = await response.json();
-    return {
-        response: data
-    };
+    return await response.json();
   },
 
   acceptFriendRequest: async (onlineId, token) => {
@@ -40,28 +34,22 @@ export const friendRequestApi: FriendRequestService = {
         "Content-Type": "application/json",
         Authorization: `Bearer ${token}`,
       },
-      body: JSON.stringify({ FriendOnlineId: onlineId }),
+      body: JSON.stringify({ friendOnlineId: onlineId }),
     });
 
-    const data = await response.json();
-    return {
-        response: data
-    };
+    return await response.json();
   },
 
   rejectFriendRequest: async (onlineId, token) => {
-    const response = await fetch(`${API_BASE_URL}friendrequest/reject`, {
+    const response = await fetch(`${API_BASE_URL}friendrequest/deny`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
         Authorization: `Bearer ${token}`,
       },
-      body: JSON.stringify({ FriendOnlineId: onlineId }),
+      body: JSON.stringify({ friendOnlineId: onlineId }),
     });
 
-    const data = await response.json();
-    return {
-        response: data
-    };
+    return await response.json();
   },
 };
