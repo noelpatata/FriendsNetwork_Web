@@ -4,22 +4,22 @@ import { FriendRequestDTO } from "../domain/models/FriendRequests/FriendRequestD
 import { friendRequestApi } from "../adapters/api/friendRequestApi"; // Adapter implementation
 
 const FriendRequests = () => {
-  const { usertoken } = useAuth();
+  const { user } = useAuth();
   const [friendRequests, setFriendRequests] = useState<FriendRequestDTO[]>([]);
   const [error, setError] = useState<string>("");
 
   const fetchFriendRequests = async () => {
-    if (!usertoken) return;
+    if (!user) return;
 
     try {
-      const response = await friendRequestApi.getFriendRequests(usertoken.token);
+      const response = await friendRequestApi.getFriendRequests(user.token);
 
       if (!response.success) {
         setError(response.message || "Failed to fetch friend requests");
         return;
       }
 
-      setFriendRequests(response.content!!.viewModels || []);
+      setFriendRequests(response.content!!.viewModel || []);
     } catch (err) {
       console.error("Fetch error:", err);
       setError("An error occurred while fetching friend requests.");
@@ -28,7 +28,7 @@ const FriendRequests = () => {
 
   const handleAcceptRequest = async (onlineId: string) => {
     try {
-      const response = await friendRequestApi.acceptFriendRequest(onlineId, usertoken?.token!!);
+      const response = await friendRequestApi.acceptFriendRequest(onlineId, user?.token!!);
 
       if (response.success) {
         setFriendRequests(prev => prev.filter(req => req.sender.online_id !== onlineId));
@@ -43,7 +43,7 @@ const FriendRequests = () => {
 
   const handleRejectRequest = async (onlineId: string) => {
     try {
-      const response = await friendRequestApi.rejectFriendRequest(onlineId, usertoken?.token!!);
+      const response = await friendRequestApi.rejectFriendRequest(onlineId, user?.token!!);
 
       if (response.success) {
         setFriendRequests(prev => prev.filter(req => req.sender.online_id !== onlineId));
@@ -58,7 +58,7 @@ const FriendRequests = () => {
 
   useEffect(() => {
     fetchFriendRequests();
-  }, [usertoken]);
+  }, [user]);
 
   return (
     <div className="">

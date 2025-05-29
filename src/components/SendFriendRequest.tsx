@@ -3,7 +3,7 @@ import { useAuth } from "../AuthContext";
 import { friendRequestApi } from "../adapters/api/friendRequestApi";
 
 const SendFriendRequest: React.FC = () => {
-  const { usertoken } = useAuth();
+  const { user } = useAuth();
   const [friendOnlineId, setFriendOnlineId] = useState<string>("");
   const [error, setError] = useState<string>("");
 
@@ -16,7 +16,7 @@ const SendFriendRequest: React.FC = () => {
     }
 
     try {
-      const response = await friendRequestApi.sendFriendRequest(friendOnlineId, usertoken?.token!!);
+      const response = await friendRequestApi.sendFriendRequest(friendOnlineId, user?.token!!);
       
       if (response.success) {
         alert(`Friend request sent successfully to ${response.content?.viewModel?.receiver.username}!`);

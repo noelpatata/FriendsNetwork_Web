@@ -20,7 +20,7 @@ const Login = () => {
         throw new Error(response.message || "Login failed");
       }
 
-      login(response.content?.tokenViewModel!!);
+      login(response.content?.viewModel!!);
       navigate("/");
     } catch (err: any) {
       console.error(err);

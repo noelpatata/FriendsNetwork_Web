@@ -2,44 +2,43 @@ import { createContext, useContext, useState, useEffect } from "react";
 import { LoginDTO } from "./domain/models/Login/LoginDTO";
 
 interface AuthContextType {
-  usertoken: LoginDTO | null;
+  user: LoginDTO | null;
   login: (loginData: LoginDTO) => void;
   logout: () => void;
+  ready: boolean;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
-  const [usertoken, setUsertoken] = useState<LoginDTO | null>(() => {
+  const [user, setUsertoken] = useState<LoginDTO | null>(null);
+  const [ready, setReady] = useState(false);
+
+  useEffect(() => {
     const storedData = localStorage.getItem("login_data");
-    return storedData ? JSON.parse(storedData) : null;
-  });
-
-    useEffect(() => {
-
+    if (storedData) {
+      setUsertoken(JSON.parse(storedData));
+    }
+    setReady(true);
   }, []);
 
-
   const login = (loginData: LoginDTO) => {
-    console.log("setting token");
-
     localStorage.setItem("login_data", JSON.stringify(loginData));
-
     setUsertoken(loginData);
   };
 
   const logout = () => {
-    console.log("logout");
     localStorage.removeItem("login_data");
     setUsertoken(null);
   };
 
   return (
-    <AuthContext.Provider value={{ usertoken, login, logout }}>
+    <AuthContext.Provider value={{ user, login, logout, ready }}>
       {children}
     </AuthContext.Provider>
   );
 };
+
 
 export const useAuth = () => {
   const context = useContext(AuthContext);

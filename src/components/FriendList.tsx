@@ -4,7 +4,7 @@ import { useAuth } from "../AuthContext";
 import Chat from "./Chat";
 import { FriendDTO } from "../domain/models/Friends/FriendDTO";
 const FriendList = () => {
-    const { usertoken } = useAuth();
+    const { user } = useAuth();
     const [friends, setFriends] = useState<FriendDTO[]>([]);
     const [error, setError] = useState("");
     const [selectedFriend, setSelectedFriend] = useState<FriendDTO | null>(null);
@@ -13,7 +13,7 @@ const FriendList = () => {
         const fetchFriends = async () => {
     
           try {
-            const response = await friendApi.getFriends(usertoken?.token!!);
+            const response = await friendApi.getFriends(user?.token!!);
 
             if (!response) {
               setError("You've got no friends :(");
@@ -21,11 +21,11 @@ const FriendList = () => {
             }
 
             if (response.success) {
-              if (!response.content?.friendsViewModel) {
+              if (!response.content?.viewModel) {
                 return;
               }
 
-              const friends = response.content.friendsViewModel;
+              const friends = response.content.viewModel;
               setFriends(friends);
             } else {
               setError(response.message || "Failed to fetch friends");
@@ -37,13 +37,13 @@ const FriendList = () => {
         };
     
         fetchFriends();
-      }, [usertoken]);
+      }, [user]);
 
       const handleDeleteFriend = async (friendId: string) => {
         const confirmed = window.confirm("Are you sure you want to delete this friend?");
         if (confirmed) {
           try {
-            const res = await friendApi.deleteFriend(usertoken?.token!!, friendId);
+            const res = await friendApi.deleteFriend(user?.token!!, friendId);
             if (res.success) {
               setFriends(friends.filter((friend) => friend.friend!!.online_id !== friendId));
             } else {
