@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useWebSocket } from "../hooks/useWebSocket";
 
 type Props = {
@@ -9,8 +9,15 @@ export function NotificationListener({ token }: Props) {
   const [notifications, setNotifications] = useState<string[]>([]);
 
   useWebSocket(token, (message: string) => {
-    setNotifications((prev) => [...prev, message]);
-  });
+  try {
+    const data = JSON.parse(message);
+    if (data.type === "notification") {
+      setNotifications((prev) => [...prev, `${data.fromUsername}: ${data.message}`]);
+    }
+  } catch (err) {
+    console.error("Failed to parse WebSocket message:", err);
+  }
+});
 
   return (
     <div className="fixed top-4 right-4 bg-white shadow-md p-4 rounded-md w-80 z-50">

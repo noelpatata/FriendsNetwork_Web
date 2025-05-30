@@ -10,14 +10,10 @@ interface AuthContextType {
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
-  const [user, setUsertoken] = useState<LoginDTO | null>(null);
-
-  useEffect(() => {
-    const storedData = localStorage.getItem("login_data");
-    if (storedData) {
-      setUsertoken(JSON.parse(storedData));
-    }
-  }, []);
+  const storedData = localStorage.getItem("login_data");
+  const [user, setUsertoken] = useState<LoginDTO | null>(
+    storedData ? JSON.parse(storedData) : null
+  );
 
   const login = (loginData: LoginDTO) => {
     localStorage.setItem("login_data", JSON.stringify(loginData));
@@ -35,6 +31,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     </AuthContext.Provider>
   );
 };
+
 
 
 export const useAuth = () => {
