@@ -6,19 +6,9 @@ type Props = {
 };
 
 export function NotificationListener({ token }: Props) {
-  const [shouldConnect, setShouldConnect] = useState(false);
   const [notifications, setNotifications] = useState<string[]>([]);
 
-  // Slight delay before allowing connection
-  useEffect(() => {
-    const timeout = setTimeout(() => {
-      setShouldConnect(true);
-    }, 500); // Wait 0.5 sec
-
-    return () => clearTimeout(timeout);
-  }, []);
-
-  useWebSocket(shouldConnect ? token : null, (message: string) => {
+  useWebSocket(token, (message: string) => {
     setNotifications((prev) => [...prev, message]);
   });
 

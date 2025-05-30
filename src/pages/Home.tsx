@@ -5,7 +5,7 @@ import FriendRequests from "../components/FriendRequests";
 import { NotificationListener } from "../components/NotificationListener";
 
 const Home = () => {
-  const { user, logout, ready } = useAuth();
+  const { user, logout } = useAuth();
   
   const handleLogout = async () => {
       logout()
@@ -13,7 +13,7 @@ const Home = () => {
 
   return (
     <div className="">
-      {ready && user && <NotificationListener token={user.token} />}      <FriendList />
+      { user && <NotificationListener token={user.token} />}      <FriendList />
       <SendFriendRequest />
       <FriendRequests />
 
