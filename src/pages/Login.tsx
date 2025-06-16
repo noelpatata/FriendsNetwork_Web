@@ -29,7 +29,7 @@ const Login = () => {
   };
 
   return (
-    <div className="">
+    <div className="login-container">
       <form
         onSubmit={handleLogin}
         className=""
@@ -42,34 +42,36 @@ const Login = () => {
           </div>
         )}
 
-        <div className="">
+        <div className="login-container-child">
           <label className="">Username</label>
           <input
             type="text"
-            className=""
+            className="text-input"
             value={username}
             onChange={(e) => setUsername(e.target.value)}
             required
           />
         </div>
 
-        <div className="">
+        <div className="login-container-child">
           <label className="">Password</label>
           <input
             type="password"
-            className=""
+            className="text-input"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             required
           />
         </div>
-
-        <button
-          type="submit"
-          className=""
-        >
-          Login
-        </button>
+        <div className="login-container-child">
+          <button
+            type="submit"
+            className="button-dologin"
+          >
+            Login
+          </button>
+        </div>
+        
       </form>
     </div>
   );
